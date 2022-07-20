@@ -1,3 +1,30 @@
+
+@mixin linear-gradient($deg,$clr-1,$clr-2) {
+  background-image: linear-gradient($deg,$clr-1,$clr-2);
+}
+
+@mixin decorative-underline {
+  &::after {  
+    content:"";
+    display:block;
+    width: 5rem;
+    height: 1px;
+    background-color: black;
+    margin: 2rem auto;
+  }
+}
+
+@mixin ui-element($size, $color, $bg-color, $hover, $hover-bg-color) {
+  padding: $size 3*($size);
+  color: $color;
+  background-color: $bg-color;
+  &:hover,
+  &:focus {
+    color:$hover;
+    background-color: $hover-bg-color;
+  }
+}
+
 body {
   font-family: system-ui;
   margin: 0;
@@ -8,4 +35,48 @@ body {
 .section-three {
   text-align: center;
   padding: 10vh 0;
+}
+
+.section-one {
+  @include linear-gradient(-45deg, blue, red);
+  .title {
+    color: white;
+  }
+}
+
+.section-two {
+  @include linear-gradient(-72deg, purple, limegreen);
+  .title {
+    color: white;
+  }
+}
+
+.section-three {
+  @include linear-gradient(0deg, yellow, orange);
+}
+
+.title {
+  @include decorative-underline();
+}
+
+.button-one {
+  display: inline-block;
+  @include ui-element(15px, white, black, black , white)
+}
+
+.button-two {
+  display: inline-block;
+  @include ui-element(15px, yellow, black, black , yellow);
+}
+
+.badge-one {
+  display: inline-block;
+  margin: 0;
+  @include ui-element(15px, black, white, 0 , 0);
+}
+
+.badge-two {
+  display: inline-block;
+  margin: 0;
+  @include ui-element(15px, blue, black, 0 , 0);
 }
