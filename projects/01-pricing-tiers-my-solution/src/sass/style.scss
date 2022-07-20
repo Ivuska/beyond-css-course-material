@@ -94,7 +94,7 @@ body {
       &__list-item {
           //It is for the underscore - always do the decorative elements with CSS if you have the chance 
           // <hr> can be used, too 
-          //:not(:last-child) means that the undescoring line would not be after the last item
+          //:not(:last-child) means that the undescoring line will not be after the last item
           //& does not make children selectors it makes more complex selectors
         &:not(:last-child)::after {
         content:"";

@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 .cache/
 dist/
+projects/pricing-tiers-my-solution/public/css/style.css
