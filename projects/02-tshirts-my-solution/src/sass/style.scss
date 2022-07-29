@@ -1,0 +1,184 @@
+// colors
+$color-red-400:hsla(357, 100%, 68%, 1);
+$color-red-500:hsl(357, 74%, 40%);
+$color-blue-800:hsla(216, 71%, 16%, 1);
+$color-neutral-100:hsl(0 0% 100%);
+
+// font-families
+$ff-sans: 'Roboto', sans-serif;
+
+// font-sizes
+$fs-700: 3rem;
+$fs-600: 2rem;
+$fs-500: 1.25rem;
+$fs-400: 1.125rem;
+
+// font-weights
+$fw-400: 400;
+$fw-bold-700: 700;
+$fw-black-900: 900;
+
+// size/spacing values (Including the border-width)
+$size-8: 0.5rem;
+$size-12: 0.75rem;
+$size-16: 1rem;
+$size-32: 2rem;
+$size-36: 3rem;
+
+%shadow {
+  box-shadow: .25rem .25rem 1rem rgb(0 0 0 / .15);
+}
+
+@mixin interactive-scale($color, $bg, $scale: 1.05) {
+	transform: 1;
+	transition: transform 350ms ease;
+
+	&:hover,
+	&:focus {
+	transform: $scale;
+	color: $color;
+	background-color: $bg;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+//form elements inherit all the font properties 
+//removes all the user-agent-styles from headings and other elements
+  font: inherit;
+}
+
+img {
+	display: block;
+	width: 100%;
+	margin: auto;
+}
+
+body {
+  font-family: $ff-sans;
+  font-size: $fs-400;
+  color: $color-blue-800;
+}
+
+// composition
+
+.container {
+  width: min(58rem, 100% - 2rem);
+  margin-inline: auto;
+}
+
+.even-columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gap, 1rem);
+}
+
+// Utilities
+
+.margin-block-xl { margin-block: $size-36; }
+
+.fw-bold { font-weight: 700; }
+.fw-black { font-weight: 900; }
+
+.text-center { text-align: center; }
+.text-accent { color: $color-red-400; }
+
+.visually-hidden {
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap; 
+  width: 1px;
+}
+
+.page-title {
+  font-size: $fs-700;
+  font-weight: 900;
+}
+
+// block
+.card {
+	// I need to use interpolation because of the nested class in the [data-type] class
+	$card-parent: &;
+	border-radius: $size-32;
+	overflow: hidden;
+	@extend %shadow;
+
+	&[data-type='product'] {
+		h2 {
+			font-size: $fs-600;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+		#{$card-parent}__content {
+			position: relative;
+			padding: $size-32 $size-16 $size-16;
+			display: flex;
+			align-items: flex-end;
+			// This gap is here to prevent touching the two divs with name
+			// of the t-shirt and the price in the case the name of the product
+			//is longer.
+			gap: $size-16;
+			justify-content:  space-between;
+		}
+
+		.button {
+			display: inline-block;
+			border: 0;
+			text-decoration: none;
+			cursor: pointer;
+			padding: $size-16;
+			background: $color-red-400;
+			color: $color-neutral-100;
+			// Trick to round the corners. It makes circle from square and pill shape
+			// from rectangle.
+			border-radius: 100vw;
+			@extend %shadow;
+			@include interactive-scale($color-neutral-100, $color-red-500);
+			// Absolute position is always counted to the next parent, so if I want to count 
+			// it to the card parent then I need to set position relative to the .card .
+			position: absolute;
+			top: 0;
+			// I know from figma that spacing from right should be 16px.
+			right: $size-16;
+			// Using top: 0 and transform prevents to breaking the solution when some changes will
+			// be made in the future, because it is always moving 50%of its own size.
+			// To have absolute positioning with px leads to the need 
+			// to check and possibly change the pixels with every future change.
+			transform: translateY(-50%) ;
+		}
+
+	}
+
+	&[data-type='link-with-image'] {
+		text-decoration: none;
+    color: $color-red-500;
+
+		@include interactive-scale($color-neutral-100, $color-blue-800);
+
+    #{$card-parent} {
+      &__content {
+        padding: $size-16 $size-12;
+      }
+    }
+		img {
+			// I know the height from Figma.
+			height: 8.75rem;
+			width: 100%;
+			// Will crop the image. If I do not use the property the images will be distorted.
+			object-fit: cover;
+			// There are faces on the images and I want to see them whole.
+			object-position: top center;
+		}
+	}
+}
