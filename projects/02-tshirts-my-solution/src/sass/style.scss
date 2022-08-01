@@ -30,12 +30,12 @@ $size-36: 3rem;
 }
 
 @mixin interactive-scale($color, $bg, $scale: 1.05) {
-	transform: 1;
+	transform: scale(1);
 	transition: transform 350ms ease;
 
 	&:hover,
 	&:focus {
-	transform: $scale;
+	transform: scale($scale);
 	color: $color;
 	background-color: $bg;
   }
@@ -138,13 +138,12 @@ body {
 			text-decoration: none;
 			cursor: pointer;
 			padding: $size-16;
-			background: $color-red-400;
-			color: $color-neutral-100;
+
 			// Trick to round the corners. It makes circle from square and pill shape
 			// from rectangle.
 			border-radius: 100vw;
 			@extend %shadow;
-			@include interactive-scale($color-neutral-100, $color-red-500);
+
 			// Absolute position is always counted to the next parent, so if I want to count 
 			// it to the card parent then I need to set position relative to the .card .
 			position: absolute;
@@ -181,4 +180,10 @@ body {
 			object-position: top center;
 		}
 	}
+}
+
+.button {
+	background: $color-red-400;
+	color: $color-neutral-100;
+	@include interactive-scale($color-neutral-100, $color-red-500);
 }
